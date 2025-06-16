@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <fstream>
+
+class Book {
+public:
+    std::string title;
+    std::string author;
+    std::string isbn;
+    bool isBorrowed;
+
+    Book(const std::string& t, const std::string& a, const std::string& i) 
+        : title(t), author(a), isbn(i), isBorrowed(false) {}
+};
+
+class Library {
+private:
+    std::vector<Book> books;
+    const std::string filename = "library.txt";
+
+    void saveToFile() {
+        std::ofstream file(filename);
+        if (file.is_open()) {
+            for (const auto& book : books) {
+                file << book.title << "|" << book.author << "|" 
+                     << book.isbn << "|" << (book.isBorrowed ? "1" : "0") << "\n";
+            }
+            file.close();
+        }
+    }
+
+    void loadFromFile() {
+        std::ifstream file(filename);
+        if (file.is_open()) {
